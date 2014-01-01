@@ -593,8 +593,8 @@ cdef class PcapDumper:
 cdef class PcapInterface:
     """An interface available to libpcap"""
     cdef list __addresses
-    cdef str __name
-    cdef str __description
+    cdef bytes __name
+    cdef bytes __description
     cdef bool __loopback
     def __init__(self):
         """This class is only returned by yappcap.findalldevs() and cannot be
@@ -625,9 +625,9 @@ cdef PcapInterface PcapInterface_factory(pcap_if_t *interface):
     cdef pcap_addr_t *it = interface.addresses
     instance.__addresses = list()
     if interface.name:
-        instance.__name = interface.name.decode('UTF-8')
+        instance.__name = interface.name
     if interface.description:
-        instance.__description = interface.description.decode('UTF-8')
+        instance.__description = interface.description
     if interface.flags & PCAP_IF_LOOPBACK:
         instance.__loopback = True
     else:
